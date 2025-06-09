@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="7-Day Periodic Table Challenge - Interactive learning experience for mastering the periodic table">
+    <meta name="keywords" content="periodic table, chemistry, education, interactive learning, elements">
+    <meta name="author" content="Periodic Table Challenge">
+    <title>7-Day Periodic Table Challenge</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/app.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Favicon and app icons -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="7-Day Periodic Table Challenge">
+    <meta property="og:description" content="Master the periodic table in 7 days with interactive learning">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="assets/images/og-image.png">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="7-Day Periodic Table Challenge">
+    <meta name="twitter:description" content="Master the periodic table in 7 days with interactive learning">
+    <meta name="twitter:image" content="assets/images/twitter-card.png">
+</head>
+<body class="theme-light" data-current-day="1" data-sound-enabled="true">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
+    
+    <!-- Loading screen -->
+    <div id="loading-screen" class="loading-screen" role="status" aria-label="Loading application">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <div class="atom-animation">
+                    <div class="nucleus"></div>
+                    <div class="electron-orbit orbit-1">
+                        <div class="electron"></div>
+                    </div>
+                    <div class="electron-orbit orbit-2">
+                        <div class="electron"></div>
+                    </div>
+                    <div class="electron-orbit orbit-3">
+                        <div class="electron"></div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="loading-title">7-Day Periodic Table Challenge</h1>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="loading-progress-fill"></div>
+                </div>
+                <p class="loading-text" id="loading-text">Initializing elements...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main application container -->
+    <div id="app-container" class="app-container" style="display: none;">
+        <!-- Header navigation -->
+        <header class="main-header" role="banner">
+            <nav class="header-nav" role="navigation" aria-label="Main navigation">
+                <div class="nav-brand">
+                    <div class="brand-logo">
+                        <div class="logo-icon">
+                            <span class="element-symbol">Pt</span>
+                            <span class="atomic-number">78</span>
+                        </div>
+                    </div>
+                    <h1 class="brand-title">Periodic Table Challenge</h1>
+                </div>
+                
+                <div class="nav-controls">
+                    <!-- Theme toggle -->
+                    <button class="control-btn theme-toggle" 
+                            id="theme-toggle" 
+                            aria-label="Toggle dark/light theme"
+                            title="Toggle theme">
+                        <span class="icon-sun" aria-hidden="true">☀️</span>
+                        <span class="icon-moon" aria-hidden="true">🌙</span>
+                    </button>
+                    
+                    <!-- Sound toggle -->
+                    <button class="control-btn sound-toggle" 
+                            id="sound-toggle" 
+                            aria-label="Toggle sound effects"
+                            title="Toggle sound">
+                        <span class="icon-sound-on" aria-hidden="true">🔊</span>
+                        <span class="icon-sound-off" aria-hidden="true">🔇</span>
+                    </button>
+                    
+                    <!-- Settings button -->
+                    <button class="control-btn settings-btn" 
+                            id="settings-btn" 
+                            aria-label="Open settings"
+                            title="Settings">
+                        <span class="icon-settings" aria-hidden="true">⚙️</span>
+                    </button>
+                    
+                    <!-- Help button -->
+                    <button class="control-btn help-btn" 
+                            id="help-btn" 
+                            aria-label="Open help"
+                            title="Help">
+                        <span class="icon-help" aria-hidden="true">❓</span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Progress indicator -->
+            <div class="progress-indicator" role="progressbar" aria-label="Challenge progress">
+                <div class="progress-container">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="main-progress-fill" style="width: 14.28%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span class="progress-label current">Day <span id="current-day-number">1</span></span>
+                        <span class="progress-label total">of 7</span>
+                    </div>
+                </div>
+                <div class="day-indicators">
+                    <div class="day-indicator active" data-day="1" aria-label="Day 1">1</div>
+                    <div class="day-indicator locked" data-day="2" aria-label="Day 2 (locked)">2</div>
+                    <div class="day-indicator locked" data-day="3" aria-label="Day 3 (locked)">3</div>
+                    <div class="day-indicator locked" data-day="4" aria-label="Day 4 (locked)">4</div>
+                    <div class="day-indicator locked" data-day="5" aria-label="Day 5 (locked)">5</div>
+                    <div class="day-indicator locked" data-day="6" aria-label="Day 6 (locked)">6</div>
+                    <div class="day-indicator locked" data-day="7" aria-label="Day 7 (locked)">7</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main content area -->
+        <main id="main-content" class="main-content" role="main">
+            <!-- Welcome screen -->
+            <section id="welcome-screen" class="screen welcome-screen active" role="region" aria-labelledby="welcome-title">
+                <div class="welcome-container">
+                    <div class="welcome-hero">
+                        <h2 id="welcome-title" class="welcome-title">Welcome to the 7-Day Periodic Table Challenge!</h2>
+                        <p class="welcome-subtitle">Master all 118 elements through interactive learning and daily challenges</p>
+                        
+                        <div class="welcome-features">
+                            <div class="feature-card">
+                                <div class="feature-icon">📚</div>
+                                <h3 class="feature-title">Learn by Groups</h3>
+                                <p class="feature-description">Explore elements organized by their chemical groups and properties</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🧪</div>
+                                <h3 class="feature-title">Interactive Quizzes</h3>
+                                <p class="feature-description">Test your knowledge with multiple choice, drag & drop, and matching games</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🏆</div>
+                                <h3 class="feature-title">Daily Challenges</h3>
+                                <p class="feature-description">Unlock new content each day and track your progress</p>
+                            </div>
+                        </div>
+                        
+                        <div class="welcome-actions">
+                            <button class="btn btn-primary btn-large start-challenge-btn" id="start-challenge-btn">
+                                <span class="btn-text">Start Challenge</span>
+                                <span class="btn-icon" aria-hidden="true">🚀</span>
+                            </button>
+                            <button class="btn btn-secondary continue-challenge-btn" id="continue-challenge-btn" style="display: none;">
+                                <span class="btn-text">Continue Challenge</span>
+                                <span class="btn-icon" aria-hidden="true">▶️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day overview screen -->
+            <section id="day-overview-screen" class="screen day-overview-screen" role="region" aria-labelledby="day-overview-title">
+                <div class="day-overview-container">
+                    <header class="day-header">
+                        <h2 id="day-overview-title" class="day-title">
+                            Day <span id="day-number">1</span>: <span id="day-theme">Alkali Metals & Hydrogen</span>
+                        </h2>
+                        <p class="day-description" id="day-description">
+                            Today we'll explore the highly reactive alkali metals and the unique properties of hydrogen.
+                        </p>
+                    </header>
+                    
+                    <div class="day-content">
+                        <div class="learning-modes">
+                            <h3 class="section-title">Choose Your Learning Mode</h3>
+                            <div class="mode-cards">
+                                <button class="mode-card" data-mode="group" aria-describedby="group-mode-desc">
+                                    <div class="mode-icon">👥</div>
+                                    <h4 class="mode-title">By Group</h4>
+                                    <p id="group-mode-desc" class="mode-description">Learn elements grouped by their chemical families</p>
+                                </button>
+                                <button class="mode-card" data-mode="block" aria-describedby="block-mode-desc">
+                                    <div class="mode-icon">🧱</div>
+                                    <h4 class="mode-title">By Block</h4>
+                                    <p id="block-mode-desc" class="mode-description">Explore s, p, d, and f electron configuration blocks</p>
+                                </button>
+                                <button class="mode-card" data-mode="atomic" aria-describedby="atomic-mode-desc">
+                                    <div class="mode-icon">🔢</div>
+                                    <h4 class="mode-title">By Atomic Number</h4>
+                                    <p id="atomic-mode-desc" class="mode-description">Study elements in order of increasing atomic number</p>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="day-stats">
+                            <h3 class="section-title">Today's Goals</h3>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="elements-to-learn">8</div>
+                                    <div class="stat-label">Elements to Learn</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="quiz-questions">15</div>
+                                    <div class="stat-label">Quiz Questions</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="target-score">80%</div>
+                                    <div class="stat-label">Target Score</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Periodic table screen -->
+            <section id="periodic-table-screen" class="screen periodic-table-screen" role="region" aria-labelledby="table-title">
+                <div class="table-container">
+                    <header class="table-header">
+                        <h2 id="table-title" class="table-title">Interactive Periodic Table</h2>
+                        <div class="table-controls">
+                            <div class="view-controls">
+                                <button class="control-btn view-btn active" data-view="standard" aria-label="Standard view">
+                                    <span class="btn-text">Standard</span>
+                                </button>
+                                <button class="control-btn view-btn" data-view="groups" aria-label="Groups view">
+                                    <span class="btn-text">Groups</span>
+                                </button>
+                                <button class="control-btn view-btn" data-view="blocks" aria-label="Blocks view">
+                                    <span class="btn-text">Blocks</span>
+                                </button>
+                                <button class="control-btn view-btn" data-view="states" aria-label="States view">
+                                    <span class="btn-text">States</span>
+                                </button>
+                            </div>
+                            
+                            <div class="filter-controls">
+                                <select class="filter-select" id="element-filter" aria-label="Filter elements">
+                                    <option value="all">All Elements</option>
+                                    <option value="unlocked">Unlocked Only</option>
+                                    <option value="learned">Learned</option>
+                                    <option value="metals">Metals</option>
+                                    <option value="nonmetals">Non-metals</option>
+                                    <option value="metalloids">Metalloids</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <!-- Legend -->
+                    <div class="table-legend" role="region" aria-label="Periodic table legend">
+                        <h3 class="legend-title">Legend</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <div class="legend-color alkali-metals"></div>
+                                <span class="legend-label">Alkali Metals</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color alkaline-earth-metals"></div>
+                                <span class="legend-label">Alkaline Earth Metals</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color transition-metals"></div>
+                                <span class="legend-label">Transition Metals</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color post-transition-metals"></div>
+                                <span class="legend-label">Post-transition Metals</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color metalloids"></div>
+                                <span class="legend-label">Metalloids</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color reactive-nonmetals"></div>
+                                <span class="legend-label">Reactive Non-metals</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color noble-gases"></div>
+                                <span class="legend-label">Noble Gases</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color lanthanides"></div>
+                                <span class="legend-label">Lanthanides</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color actinides"></div>
+                                <span class="legend-label">Actinides</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Periodic table grid -->
+                    <div class="periodic-table" role="grid" aria-label="Periodic table of elements">
+                        <!-- Elements will be dynamically generated here -->
+                    </div>
+                    
+                    <!-- Table actions -->
+                    <div class="table-actions">
+                        <button class="btn btn-secondary" id="quiz-mode-btn">
+                            <span class="btn-text">Start Quiz</span>
+                            <span class="btn-icon" aria-hidden="true">🧠</span>
+                        </button>
+                        <button class="btn btn-primary" id="next-day-btn" style="display: none;">
+                            <span class="btn-text">Complete Day</span>
+                            <span class="btn-icon" aria-hidden="true">✅</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz screen -->
+            <section id="quiz-screen" class="screen quiz-screen" role="region" aria-labelledby="quiz-title">
+                <div class="quiz-container">
+                    <header class="quiz-header">
+                        <h2 id="quiz-title" class="quiz-title">Daily Quiz</h2>
+                        <div class="quiz-progress">
+                            <div class="progress-info">
+                                <span class="question-counter">
+                                    Question <span id="current-question">1</span> of <span id="total-questions">15</span>
+                                </span>
+                                <span class="quiz-score">
+                                    Score: <span id="quiz-score">0</span>/<span id="max-score">15</span>
+                                </span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="quiz-progress-fill"></div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="quiz-content">
+                        <!-- Multiple choice question -->
+                        <div class="question-container multiple-choice" id="multiple-choice-question" style="display: none;">
+                            <div class="question-text" id="mc-question-text"></div>
+                            <div class="question-image" id="mc-question-image" style="display: none;">
+                                <img src="" alt="Question illustration" id="mc-image">
+                            </div>
+                            <div class="answer-options" role="radiogroup" aria-labelledby="mc-question-text">
+                                <button class="answer-option" data-answer="a" role="radio" aria-checked="false">
+                                    <span class="option-letter">A</span>
+                                    <span class="option-text" id="option-a"></span>
+                                </button>
+                                <button class="answer-option" data-answer="b" role="radio" aria-checked="false">
+                                    <span class="option-letter">B</span>
+                                    <span class="option-text" id="option-b"></span>
+                                </button>
+                                <button class="answer-option" data-answer="c" role="radio" aria-checked="false">
+                                    <span class="option-letter">C</span>
+                                    <span class="option-text" id="option-c"></span>
+                                </button>
+                                <button class="answer-option" data-answer="d" role="radio" aria-checked="false">
+                                    <span class="option-letter">D</span>
+                                    <span class="option-text" id="option-d"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Drag and drop question -->
+                        <div class="question-container drag-drop" id="drag-drop-question" style="display: none;">
+                            <div class="question-text" id="dd-question-text"></div>
+                            <div class="drag-drop-area">
+                                <div class="draggable-items" id="draggable-items">
+                                    <!-- Draggable elements will be generated here -->
+                                </div>
+                                <div class="drop-zones" id="drop-zones">
+                                    <!-- Drop zones will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Matching question -->
+                        <div class="question-container matching" id="matching-question" style="display: none;">
+                            <div class="question-text" id="match-question-text"></div>
+                            <div class="matching-area">
+                                <div class="match-column left-column" id="left-column">
+                                    <!-- Left items will be generated here -->
+                                </div>
+                                <div class="match-column right-column" id="right-column">
+                                    <!-- Right items will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fill in the blank question -->
+                        <div class="question-container fill-blank" id="fill-blank-question" style="display: none;">
+                            <div class="question-text" id="fb-question-text"></div>
+                            <div class="blank-inputs" id="blank-inputs">
+                                <!-- Input fields will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-actions">
+                        <button class="btn btn-secondary" id="quiz-hint-btn">
+                            <span class="btn-text">Hint</span>
+                            <span class="btn-icon" aria-hidden="true">💡</span>
+                        </button>
+                        <button class="btn btn-primary" id="quiz-submit-btn" disabled>
+                            <span class="btn-text">Submit Answer</span>
+                            <span class="btn-icon" aria-hidden="true">✓</span>
+                        </button>
+                        <button class="btn btn-primary" id="quiz-next-btn" style="display: none;">
+                            <span class="btn-text">Next Question</span>
+                            <span class="btn-icon" aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Answer feedback -->
+                    <div class="answer-feedback" id="answer-feedback" style="display: none;">
+                        <div class="feedback-content">
+                            <div class="feedback-icon" id="feedback-icon"></div>
+                            <div class="feedback-text" id="feedback-text"></div>
+                            <div class="feedback-explanation" id="feedback-explanation"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results screen -->
+            <section id="results-screen" class="screen results-screen" role="region" aria-labelledby="results-title">
+                <div class="results-container">
+                    <header class="results-header">
+                        <h2 id="results-title" class="results-title">Quiz Complete!</h2>
+                        <div class="results-score">
+                            <div class="score-circle">
+                                <div class="score-fill" id="score-fill"></div>
+                                <div class="score-text">
+                                    <span class="score-percentage" id="score-percentage">0%</span>
+                                    <span class="score-label">Score</span>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="results-content">
+                        <div class="results-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="correct-answers">0</div>
+                                <div class="stat-label">Correct</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="incorrect-answers">0</div>
+                                <div class="stat-label">Incorrect</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="time-taken">0:00</div>
+                                <div class="stat-label">Time</div>
+                            </div>
+                        </div>
+                        
+                        <div class="results-feedback" id="results-feedback">
+                            <div class="feedback-message" id="feedback-message"></div>
+                            <div class="improvement-tips" id="improvement-tips"></div>
+                        </div>
+                        
+                        <div class="results-actions">
+                            <button class="btn btn-secondary" id="review-answers-btn">
+                                <span class="btn-text">Review Answers</span>
+                                <span class="btn-icon" aria-hidden="true">📝</span>
+                            </button>
+                            <button class="btn btn-primary" id="continue-learning-btn">
+                                <span class="btn-text">Continue Learning</span>
+                                <span class="btn-icon" aria-hidden="true">📚</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final challenge screen (Day 7) -->
+            <section id="final-challenge-screen" class="screen final-challenge-screen" role="region" aria-labelledby="final-title">
+                <div class="final-container">
+                    <header class="final-header">
+                        <h2 id="final-title" class="final-title">Final Challenge</h2>
+                        <p class="final-subtitle">Test your mastery of all 118 elements!</p>
+                    </header>
+                    
+                    <div class="final-content">
+                        <div class="challenge-overview">
+                            <div class="overview-stats">
+                                <div class="overview-stat">
+                                    <div class="stat-number">118</div>
+                                    <div class="stat-label">Total Elements</div>
+                                </div>
+                                <div class="overview-stat">
+                                    <div class="stat-number">50</div>
+                                    <div class="stat-label">Questions</div>
+                                </div>
+                                <div class="overview-stat">
+                                    <div class="stat-number">60</div>
+                                    <div class="stat-label">Minutes</div>
+                                </div>
+                            </div>
+                            
+                            <div class="challenge-rules">
+                                <h3>Challenge Rules</h3>
+                                <ul>
+                                    <li>50 randomized questions covering all elements</li>
+                                    <li>Mix of multiple choice, drag & drop, and matching</li>
+                                    <li>60-minute time limit</li>
+                                    <li>No hints available</li>
+                                    <li>Minimum 80% required to complete the challenge</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-actions">
+                            <button class="btn btn-large btn-primary" id="start-final-challenge-btn">
+                                <span class="btn-text">Start Final Challenge</span>
+                                <span class="btn-icon" aria-hidden="true">🏆</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Completion screen -->
+            <section id="completion-screen" class="screen completion-screen" role="region" aria-labelledby="completion-title">
+                <div class="completion-container">
+                    <div class="completion-celebration">
+                        <div class="celebration-animation" id="celebration-animation">
+                            <!-- Confetti and particles will be generated here -->
+                        </div>
+                        <div class="completion-trophy">🏆</div>
+                        <h2 id="completion-title" class="completion-title">Congratulations!</h2>
+                        <p class="completion-subtitle">You've mastered the periodic table!</p>
+                    </div>
+                    
+                    <div class="completion-summary">
+                        <h3>Your Journey Summary</h3>
+                        <div class="summary-stats">
+                            <div class="summary-stat">
+                                <div class="stat-icon">📅</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="days-completed">7</div>
+                                    <div class="stat-label">Days Completed</div>
+                                </div>
+                            </div>
+                            <div class="summary-stat">
+                                <div class="stat-icon">🧪</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="elements-learned">118</div>
+                                    <div class="stat-label">Elements Learned</div>
+                                </div>
+                            </div>
+                            <div class="summary-stat">
+                                <div class="stat-icon">🧠</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="total-questions">350</div>
+                                    <div class="stat-label">Questions Answered</div>
+                                </div>
+                            </div>
+                            <div class="summary-stat">
+                                <div class="stat-icon">⭐</div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="average-score">92%</div>
+                                    <div class="stat-label">Average Score</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="completion-actions">
+                            <button class="btn btn-secondary" id="download-certificate-btn">
+                                <span class="btn-text">Download Certificate</span>
+                                <span class="btn-icon" aria-hidden="true">📜</span>
+                            </button>
+                            <button class="btn btn-primary" id="restart-challenge-btn">
+                                <span class="btn-text">Start New Challenge</span>
+                                <span class="btn-icon" aria-hidden="true">🔄</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Element detail modal -->
+        <div class="modal" id="element-modal" role="dialog" aria-labelledby="element-modal-title" aria-hidden="true">
+            <div class="modal-backdrop" id="element-modal-backdrop"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3 id="element-modal-title" class="modal-title">Element Details</h3>
+                    <button class="modal-close" id="element-modal-close" aria-label="Close modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="element-detail">
+                        <div class="element-card-large">
+                            <div class="element-number" id="modal-element-number">1</div>
+                            <div class="element-symbol" id="modal-element-symbol">H</div>
+                            <div class="element-name" id="modal-element-name">Hydrogen</div>
+                            <div class="element-mass" id="modal-element-mass">1.008</div>
+                        </div>
+                        
+                        <div class="element-properties">
+                            <div class="property-tabs">
+                                <button class="tab-btn active" data-tab="basic">Basic Info</button>
+                                <button class="tab-btn" data-tab="physical">Physical</button>
+                                <button class="tab-btn" data-tab="chemical">Chemical</button>
+                                <button class="tab-btn" data-tab="uses">Uses</button>
+                                <button class="tab-btn" data-tab="history">History</button>
+                            </div>
+                            
+                            <div class="tab-content">
+                                <div class="tab-panel active" id="basic-tab">
+                                    <div class="property-grid">
+                                        <div class="property-item">
+                                            <span class="property-label">Group:</span>
+                                            <span class="property-value" id="modal-group">1</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Period:</span>
+                                            <span class="property-value" id="modal-period">1</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Block:</span>
+                                            <span class="property-value" id="modal-block">s</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Category:</span>
+                                            <span class="property-value" id="modal-category">Reactive nonmetal</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Electron Configuration:</span>
+                                            <span class="property-value" id="modal-electron-config">1s¹</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-panel" id="physical-tab">
+                                    <div class="property-grid">
+                                        <div class="property-item">
+                                            <span class="property-label">State at STP:</span>
+                                            <span class="property-value" id="modal-state">Gas</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Melting Point:</span>
+                                            <span class="property-value" id="modal-melting-point">-259.16°C</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Boiling Point:</span>
+                                            <span class="property-value" id="modal-boiling-point">-252.87°C</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Density:</span>
+                                            <span class="property-value" id="modal-density">0.08988 g/L</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-panel" id="chemical-tab">
+                                    <div class="property-grid">
+                                        <div class="property-item">
+                                            <span class="property-label">Electronegativity:</span>
+                                            <span class="property-value" id="modal-electronegativity">2.20</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Ionization Energy:</span>
+                                            <span class="property-value" id="modal-ionization">1312 kJ/mol</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Atomic Radius:</span>
+                                            <span class="property-value" id="modal-atomic-radius">25 pm</span>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-label">Oxidation States:</span>
+                                            <span class="property-value" id="modal-oxidation-states">-1, +1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-panel" id="uses-tab">
+                                    <div class="uses-content">
+                                        <p id="modal-uses">Hydrogen is used in the production of ammonia, in petroleum refining, and as a fuel for rockets and fuel cells.</p>
+                                        <div class="fun-facts">
+                                            <h4>Fun Facts</h4>
+                                            <ul id="modal-fun-facts">
+                                                <li>Hydrogen is the most abundant element in the universe</li>
+                                                <li>It was the first element to form after the Big Bang</li>
+                                                <li>Hydrogen fuel cells produce only water as a byproduct</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-panel" id="history-tab">
+                                    <div class="history-content">
+                                        <div class="discovery-info">
+                                            <div class="property-item">
+                                                <span class="property-label">Discovered by:</span>
+                                                <span class="property-value" id="modal-discoverer">Henry Cavendish</span>
+                                            </div>
+                                            <div class="property-item">
+                                                <span class="property-label">Year:</span>
+                                                <span class="property-value" id="modal-discovery-year">1766</span>
+                                            </div>
+                                        </div>
+                                        <p id="modal-history">Henry Cavendish first recognized hydrogen as a distinct element in 1766, calling it "inflammable air".</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings modal -->
+        <div class="modal" id="settings-modal" role="dialog" aria-labelledby="settings-modal-title" aria-hidden="true">
+            <div class="modal-backdrop" id="settings-modal-backdrop"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3 id="settings-modal-title" class="modal-title">Settings</h3>
+                    <button class="modal-close" id="settings-modal-close" aria-label="Close settings">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="settings-content">
+                        <div class="setting-group">
+                            <h4 class="setting-title">Appearance</h4>
+                            <div class="setting-item">
+                                <label for="theme-select" class="setting-label">Theme</label>
+                                <select id="theme-select" class="setting-select">
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="auto">Auto</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="animation-toggle" class="setting-label">Animations</label>
+                                <input type="checkbox" id="animation-toggle" class="setting-toggle" checked>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h4 class="setting-title">Audio</h4>
+                            <div class="setting-item">
+                                <label for="sound-effects-toggle" class="setting-label">Sound Effects</label>
+                                <input type="checkbox" id="sound-effects-toggle" class="setting-toggle" checked>
+                            </div>
+                            <div class="setting-item">
+                                <label for="volume-slider" class="setting-label">Volume</label>
+                                <input type="range" id="volume-slider" class="setting-slider" min="0" max="100" value="50">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h4 class="setting-title">Learning</h4>
+                            <div class="setting-item">
+                                <label for="difficulty-select" class="setting-label">Difficulty</label>
+                                <select id="difficulty-select" class="setting-select">
+                                    <option value="easy">Easy</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="hard">Hard</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label for="hints-toggle" class="setting-label">Show Hints</label>
+                                <input type="checkbox" id="hints-toggle" class="setting-toggle" checked>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h4 class="setting-title">Data</h4>
+                            <div class="setting-actions">
+                                <button class="btn btn-secondary" id="export-progress-btn">
+                                    <span class="btn-text">Export Progress</span>
+                                </button>
+                                <button class="btn btn-secondary" id="import-progress-btn">
+                                    <span class="btn-text">Import Progress</span>
+                                </button>
+                                <button class="btn btn-danger" id="reset-progress-btn">
+                                    <span class="btn-text">Reset Progress</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help modal -->
+        <div class="modal" id="help-modal" role="dialog" aria-labelledby="help-modal-title" aria-hidden="true">
+            <div class="modal-backdrop" id="help-modal-backdrop"></div>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3 id="help-modal-title" class="modal-title">Help & Instructions</h3>
+                    <button class="modal-close" id="help-modal-close" aria-label="Close help">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="help-content">
+                        <div class="help-section">
+                            <h4>Getting Started</h4>
+                            <p>The 7-Day Periodic Table Challenge is designed to help you master all 118 elements through interactive learning and daily quizzes.</p>
+                            <ul>
+                                <li>Each day unlocks new elements to learn</li>
+                                <li>Complete daily quizzes to progress</li>
+                                <li>Explore elements through different learning modes</li>
+                                <li>Take the final challenge on Day 7</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="help-section">
+                            <h4>Learning Modes</h4>
+                            <div class="mode-help">
+                                <div class="mode-help-item">
+                                    <strong>By Group:</strong> Learn elements organized by their chemical families (alkali metals, noble gases, etc.)
+                                </div>
+                                <div class="mode-help-item">
+                                    <strong>By Block:</strong> Study elements based on their electron configuration blocks (s, p, d, f)
+                                </div>
+                                <div class="mode-help-item">
+                                    <strong>By Atomic Number:</strong> Explore elements in order of increasing atomic number
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="help-section">
+                            <h4>Quiz Types</h4>
+                            <ul>
+                                <li><strong>Multiple Choice:</strong> Select the correct answer from four options</li>
+                                <li><strong>Drag & Drop:</strong> Drag elements to their correct positions</li>
+                                <li><strong>Matching:</strong> Match elements with their properties</li>
+                                <li><strong>Fill in the Blank:</strong> Complete missing information</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="help-section">
+                            <h4>Keyboard Shortcuts</h4>
+                            <div class="shortcuts">
+                                <div class="shortcut-item">
+                                    <kbd>Space</kbd> - Start/pause quiz
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Enter</kbd> - Submit answer
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>H</kbd> - Show hint
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>T</kbd> - Toggle theme
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>?</kbd> - Show help
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast notifications -->
+        <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true">
+            <!-- Toast notifications will be dynamically added here -->
+        </div>
+
+        <!-- Floating action button -->
+        <button class="fab" id="floating-action-btn" aria-label="Quick actions" title="Quick actions">
+            <span class="fab-icon" aria-hidden="true">⚡</span>
+        </button>
+
+        <!-- Floating menu -->
+        <div class="fab-menu" id="fab-menu" style="display: none;">
+            <button class="fab-menu-item" data-action="random-element" aria-label="Random element">
+                <span class="fab-menu-icon">🎲</span>
+                <span class="fab-menu-text">Random Element</span>
+            </button>
+            <button class="fab-menu-item" data-action="quick-quiz" aria-label="Quick quiz">
+                <span class="fab-menu-icon">⚡</span>
+                <span class="fab-menu-text">Quick Quiz</span>
+            </button>
+            <button class="fab-menu-item" data-action="search-element" aria-label="Search element">
+                <span class="fab-menu-icon">🔍</span>
+                <span class="fab-menu-text">Search</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/elements-data.js"></script>
+    <script src="js/quiz-data.js"></script>
+    <script src="js/audio-manager.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/theme-manager.js"></script>
+    <script src="js/animation-manager.js"></script>
+    <script src="js/quiz-manager.js"></script>
+    <script src="js/periodic-table.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
